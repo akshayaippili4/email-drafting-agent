@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Drafting Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="header__brand">
+        <div class="header__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M2 7l10 7 10-7"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="header__title">Email Drafting Agent</h1>
+          <p class="header__subtitle">Two-agent AI crew powered by Ollama</p>
+        </div>
+      </div>
+      <div class="header__badge">
+        <span class="badge-dot"></span>
+        gpt-oss:120b-cloud
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel panel--form">
+        <div class="panel__header">
+          <h2>Compose request</h2>
+          <p>Describe your email — an analyst and writer will craft the draft.</p>
+        </div>
+
+        <form id="draft-form" class="form" novalidate>
+          <div class="field">
+            <label for="context">What should this email say?</label>
+            <textarea
+              id="context"
+              name="context"
+              rows="6"
+              placeholder="e.g. Follow up on our product demo from last Tuesday. They seemed interested but haven't responded."
+              required
+            ></textarea>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="recipient">Recipient</label>
+              <input
+                type="text"
+                id="recipient"
+                name="recipient"
+                placeholder="e.g. potential client"
+                value="a potential client"
+              >
+            </div>
+
+            <div class="field">
+              <label for="tone">Tone</label>
+              <select id="tone" name="tone">
+                <option value="professional and friendly" selected>Professional &amp; friendly</option>
+                <option value="formal">Formal</option>
+                <option value="casual">Casual</option>
+                <option value="persuasive">Persuasive</option>
+                <option value="apologetic but confident">Apologetic but confident</option>
+                <option value="enthusiastic">Enthusiastic</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn--primary" id="submit-btn">
+            <span class="btn__label">Draft email</span>
+            <span class="btn__spinner" hidden aria-hidden="true"></span>
+          </button>
+        </form>
+
+        <div class="pipeline">
+          <div class="pipeline__step">
+            <span class="pipeline__num">1</span>
+            <span>Analyst extracts purpose &amp; structure</span>
+          </div>
+          <div class="pipeline__arrow">→</div>
+          <div class="pipeline__step">
+            <span class="pipeline__num">2</span>
+            <span>Writer produces final draft</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel panel--output">
+        <div class="panel__header panel__header--row">
+          <div>
+            <h2>Drafted email</h2>
+            <p id="output-status">Your generated email will appear here.</p>
+          </div>
+          <button type="button" class="btn btn--ghost" id="copy-btn" hidden>
+            Copy to clipboard
+          </button>
+        </div>
+
+        <div class="output" id="output-area">
+          <div class="output__placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+            </svg>
+            <p>Fill in the form and click <strong>Draft email</strong> to get started.</p>
+          </div>
+        </div>
+
+        <div class="alert alert--error" id="error-alert" hidden role="alert"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Make sure Ollama is running with <code>gpt-oss:120b-cloud</code> available.</p>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
