@@ -30,15 +30,18 @@ def get_llm(
     """
     Create the Ollama LLM.
 
-    Local development:
+    Local:
         OLLAMA_BASE_URL=http://localhost:11434
 
     Render / Ollama Cloud:
-        OLLAMA_BASE_URL=https://ollama.com/api
+        OLLAMA_BASE_URL=https://ollama.com
         OLLAMA_API_KEY=your_api_key
     """
 
-    model_name = model or os.getenv("OLLAMA_MODEL", DEFAULT_MODEL)
+    model_name = model or os.getenv(
+        "OLLAMA_MODEL",
+        DEFAULT_MODEL
+    )
 
     ollama_url = base_url or os.getenv(
         "OLLAMA_BASE_URL",
@@ -87,6 +90,7 @@ Recipient: {recipient}
 Desired tone: {tone}
 
 Extract:
+
 1. Purpose
 2. Key points to cover
 3. Call to action
@@ -115,6 +119,7 @@ Tone: {tone}
 Recipient: {recipient}
 
 Include:
+
 - Subject line
 - Greeting
 - Body paragraphs
@@ -139,6 +144,7 @@ Keep the email body under 200 words.
         | StrOutputParser()
     )
 
+    # Analyze the request
     analysis = analysis_chain.invoke(
         {
             "context": context,
@@ -147,6 +153,7 @@ Keep the email body under 200 words.
         }
     )
 
+    # Generate the final email
     email = draft_chain.invoke(
         {
             "analysis": analysis,
@@ -166,6 +173,7 @@ def build_email_crew(
     """
     Compatibility wrapper used by app.py.
     """
+
     return build_email_workflow(
         context,
         tone,
@@ -174,6 +182,7 @@ def build_email_crew(
 
 
 def main():
+
     parser = argparse.ArgumentParser(
         description="Email Drafting Agent"
     )
